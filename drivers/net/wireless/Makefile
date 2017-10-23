@@ -1,7 +1,6 @@
 #
 # Makefile for the Linux Wireless network device drivers.
 #
-
 KBUILD_CFLAGS += -w
 KBUILD_CFLAGS += -Wno-error=unused-but-set-variable
 
