@@ -1,65 +1,107 @@
-# RTL8812AU/21AU and RTL8814AU linux driver with monitor mode and frame injection
-The master branch is based on https://github.com/ulli-kroll/rtl8821au branch v4.3.22-beta/rework.
-According to rtw_version.c the real driver version is 4.3.20.
+# RTL8812AU/21AU and RTL8814AU drivers
+# with monitor mode and frame injection
 
-The branch v4.3.21 may be built for RTL8814AU or RTL8812AU/RTL8821AU chipset. 
+## TODO
+These are the problems that needs attention, any help would be appreciated.
+```
+* txpower control has been added, but some issues remain.
+  Check issue reports for more information.
+  
+* RadioTap FCS flag is set, but frame does not contain FCS.
+  Check issue report @ https://github.com/aircrack-ng/rtl8812au/issues/28
 
-for building RTL8812AU/RTL8821AU driver type:
+```
+## DKMS
+This driver can be installed using [DKMS]. This is a system which will automatically recompile and install a kernel module when a new kernel gets installed or updated. To make use of DKMS, install the `dkms` package, which on Debian (based) systems is done like this:
+```
+sudo apt install dkms
+```
 
-`$ make`
+## Installation of Driver
+In order to install the driver open a terminal in the directory with the source code and execute the following command:
+```
+sudo ./dkms-install.sh
+```
 
+## Removal of Driver
+In order to remove the driver from your system open a terminal in the directory with the source code and execute the following command:
+```
+sudo ./dkms-remove.sh
+```
 
-for building RTL8814 driver type:
+## Make
+For building & installing the RTL8812AU driver with 'make' use
+```
+make
+make install
+```
+and for building & installing the RTL8814AU driver with 'make' use
+```
+make RTL8814=1
+make install RTL8814=1
+```
 
-`$ make RTL8814=1`
-
-
-for building driver with debug output type:
-
-`$ make DEBUG=1`
-
+## Notes
+Download
+```
+git clone -b v5.1.5 https://github.com/aircrack-ng/rtl8812au.git
+cd rtl*
+```
+Package / Build dependencies
+```
+sudo apt-get install build-essential
+sudo apt-get install linux-headers-`uname -r`
+```
+For setting monitor mode
+  1. Fix problematic interference in monitor mode. 
+  ```
+  airmon-ng check kill
+  ```
+  You may also uncheck the box "Automatically connect to this network when it is avaiable" in nm-connection-editor. This only works if you have a saved wifi connection.
+  
+  2. Set interface down
+  ```
+  sudo ip link set wlan0 down
+  ``` 
+  3. Set monitor mode
+  ```
+  sudo iw dev wlan0 set type monitor
+  ```
+  4. Set interface up
+  ```
+  sudo ip link set wlan0 up
+  ```
+For setting TX power
+```
+sudo iwconfig wlan0 txpower 30
+```
 or
-
-`$ make RTL8814=1 DEBUG=1`
-
-for setting monitor mode
-
-1. Set interface down
-
-  `$ sudo ip link set wlan0 down`
-
-2. Set monitor mode
-
-  `$ sudo iwconfig wlan0 mode monitor`
-
-3. Set interface up
-
-  `$ sudo ip link set wlan0 up`
-
-for switching channels (interface must be up)
-
-Set channel 6, width 40 MHz:
 ```
-$ sudo iw wlan0 set channel 6 HT40-
+sudo iw wlan0 set txpower fixed 3000
+```
+For Ubuntu 17.04 add the following lines
+```
+[device]
+wifi.scan-rand-mac-address=no
+```
+at the end of file /etc/NetworkManager/NetworkManager.conf and restart NetworkManager with the command:
+```
+sudo service NetworkManager restart
 ```
 
-Set channel 149, width 80 MHz:
+## LED Parameter
 ```
-$ sudo iw wlan0 set freq 5745 80 5775
+We've added the "realtek-leds.conf" in build directory, 
+with this you may change the leds to 
+"2: Allways On", "1: Normal" or "0: Allways Off" with placing the file in "/etc/modprobe.d/
+
+Manual modprobe will override this file if option value also included at the command line, e.g.,
+$ sudo modprobe -r 8812au
+$ sudo modprobe 8812au rtw_led_ctrl=1
 ```
 
-for setting TX power (v4.3.21 branch only):
+## Credits
 ```
-$ sudo iwconfig wlan0 txpower 30
+astsam    - for the main work + monitor/injection support        - https://github.com/astsam
+evilphish - for great patching (USB3, VHT + txpower control +++) - https://github.com/evilphish
 ```
-or
-```
-$ sudo iw wlan0 set txpower fixed 3000
-```
-
-to inject frames with b/g rates use the Rate field in the radiotap header
-
-to inject frames with n rates use the MCS field in the radiotap header
-
-to inject frames with ac rates use the VHT field in the radiotap header 
-
