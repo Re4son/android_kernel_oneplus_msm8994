@@ -26,6 +26,7 @@ obj-$(CONFIG_B43LEGACY)		+= b43legacy/
 obj-$(CONFIG_ZD1211RW)		+= zd1211rw/
 obj-$(CONFIG_RTL8180)		+= rtl818x/
 obj-$(CONFIG_RTL8187)		+= rtl818x/
+obj-$(CONFIG_RTL8812A)		+= rtl8812au/
 obj-$(CONFIG_RTLWIFI)		+= rtlwifi/
 
 # 16-bit wireless PCMCIA client drivers
