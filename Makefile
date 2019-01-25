@@ -1,8 +1,8 @@
 VERSION = 3
 PATCHLEVEL = 10
-SUBLEVEL = 107
+SUBLEVEL = 108
 EXTRAVERSION =
-NAME = TOSSUG Baby Fish
+NAME = END-OF-LIFE
 
 # *DOCUMENTATION*
 # To see a list of typical targets execute "make help"
@@ -379,6 +379,8 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -Wno-format-security \
 		   -fno-delete-null-pointer-checks \
 		   -std=gnu89
+
+KBUILD_CFLAGS   += -mcpu=cortex-a57.cortex-a53
 
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
