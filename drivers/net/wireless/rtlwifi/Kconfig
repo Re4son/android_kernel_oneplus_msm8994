@@ -70,6 +70,12 @@ config RTL8812AU
         ---help---
           Help message of RTL8812AU
 
+config RTL8192EU
+        tristate "Realtek 8192E USB WiFi"
+        depends on RTLWIFI && USB
+        ---help---
+          Help message of RTL8192EU
+
 config RTL8192CU
 	tristate "Realtek RTL8192CU/RTL8188CU USB Wireless Network Adapter"
 	depends on RTLWIFI && USB
