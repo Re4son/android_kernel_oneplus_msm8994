@@ -27,5 +27,7 @@ obj-$(CONFIG_RTL8192SE)		+= rtl8192se/
 obj-$(CONFIG_RTL8192DE)		+= rtl8192de/
 obj-$(CONFIG_RTL8723AE)		+= rtl8723ae/
 obj-$(CONFIG_RTL8188EE)		+= rtl8188ee/
+obj-$(CONFIG_RTL8812AU)		+= rtl8812au/
+obj-$(CONFIG_RTL8192EU)         += rtl8192eu/
 
 ccflags-y += -D__CHECK_ENDIAN__

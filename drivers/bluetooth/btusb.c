@@ -39,6 +39,7 @@ static bool force_scofix;
 
 static int sco_conn;
 static int reset = 1;
+/*static int reset = true; */
 
 static struct usb_driver btusb_driver;
 
