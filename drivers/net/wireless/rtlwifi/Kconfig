@@ -64,12 +64,6 @@ config RTL8188EE
 
 	If you choose to build it as a module, it will be called rtl8188ee
 
-config RTL8812AU
-        tristate "Realtek 8812AU USB WiFi"
-        depends on RTLWIFI && USB
-        ---help---
-          Help message of RTL8812AU
-
 config RTL8192EU
         tristate "Realtek 8192E USB WiFi"
         depends on RTLWIFI && USB
